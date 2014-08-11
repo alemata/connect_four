@@ -40,6 +40,11 @@ class GameTest < ActiveSupport::TestCase
       assert_equal 0, @game.send(:get_row, col), "Error on no played column"
     end
   end
-  
+
+  test "change turn when player moves" do
+    @game.play(users(:user_one), 0)
+
+    assert_equal users(:user_two), @game.current_player, "Error when changing turn when player moves"
+  end
 
 end
