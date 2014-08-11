@@ -2,6 +2,7 @@
   <div>
     <h3>Connect Four!</h3>
   </div>
+  <%= link_to "New game", new_game_path(user_id: @current_player.id), method: :post, class: "btn" %>
   <br>
 
   <% is_turn = @game.current_player == @current_player  %>

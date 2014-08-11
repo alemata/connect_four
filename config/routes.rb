@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "users/:id", :to => "games#user"
 
   put "game", :to => "games#user_play"
+  post "new_game", :to => "games#new_game"
 
 
   # Example of regular route:

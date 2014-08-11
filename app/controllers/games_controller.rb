@@ -14,4 +14,12 @@ class GamesController < ApplicationController
     @game.reload
   end
 
+  def new_game
+    @user = User.find params[:user_id]
+    game = Game.first
+    game = game.reset
+
+    redirect_to "/users/#{@user.id}"
+  end
+
 end

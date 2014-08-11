@@ -30,6 +30,12 @@ class Game < ActiveRecord::Base
     played
   end
 
+  def reset
+    self.current_player = self.player_1
+    self.board = Array.new(NUM_ROWS){ Array.new(NUM_COLUMNS) {|i| :blank } }
+    self.save
+  end
+
   private
 
   def get_row(column)
