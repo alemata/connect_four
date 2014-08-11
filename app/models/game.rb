@@ -9,6 +9,8 @@ class Game < ActiveRecord::Base
   belongs_to :player_2, :class_name => "User"
   belongs_to :current_player, :class_name => "User"
 
+  validates :player_1, :player_2, :current_player, presence: true
+
   def initialize(attributes={})
     super
     self.status = :new

@@ -1,15 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+game_one:
   status: MyString
-  current_player_id: 1
-  player_1_id: 1
-  player_2_id: 1
-  board: MyString
-
-two:
-  status: MyString
-  current_player_id: 1
-  player_1_id: 1
-  player_2_id: 1
+  current_player: user_one
+  player_1: user_one
+  player_2: user_two
   board: MyString
