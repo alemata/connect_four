@@ -2,23 +2,32 @@
   <div>
     <h3>Connect Four!</h3>
   </div>
+  <br>
 
-  <% if @game.current_player == @current_player %>
-    <h5>Es tu turno!</h3>
+  <% is_turn = @game.current_player == @current_player  %>
+  <% if is_turn %>
+    <% turn_string = "Your turn!" %>
   <% else %>
-    <h5>Espera tu turno para jugar!</h3>
+    <% turn_string = "Wait your turn to play!" %>
   <% end %>
 
+  <div id='turn'>
+    <h5><%= turn_string  %></h3>
+  </div>
+
+  <br>
 
   <div id="board">
     <%= render partial: "board" %>
   </div>
 
-  <% (1..Game::NUM_COLUMNS).each do |column| %>
-    <%= link_to "Jugar en col #{column}", game_path(user: @current_player.id, column: column - 1), remote: true, method: :put, class: "btn" %>
-    <br>
+  <% if is_turn %>
+    <div id='to_play'>
+      <% (1..Game::NUM_COLUMNS).each do |column| %>
+        <%= link_to "Jugar en col #{column}", game_path(user: @current_player.id, column: column - 1), remote: true, method: :put, class: "btn" %>
+        <br>
+      <% end %>
+    </div>
   <% end %>
-
-
 
 </div>

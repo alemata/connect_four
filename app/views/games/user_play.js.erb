@@ -1,2 +1,8 @@
-$('#board').html('<%= escape_javascript(render("board")) %>');
+<% if @played %>
+  $('#board').html('<%= escape_javascript(render("board")) %>');
+  $('#to_play').empty()
+  $('#turn').text("Wait your turn to play!")
+<% else %>
+  $('#turn').text("Could not play... try again!")
+<% end %>
 

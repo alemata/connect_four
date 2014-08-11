@@ -19,12 +19,31 @@ class Game < ActiveRecord::Base
   end
 
   def play(player, column)
-    self.board[0][column] = color(player)
-    self.current_player = next_player
-    self.save
+    played = false
+    num_row = get_row(column)
+    if num_row
+      self.board[num_row][column] = color(player)
+      self.current_player = next_player
+      played = true if self.save
+    end
+
+    played
   end
 
   private
+
+  def get_row(column)
+    num_row = nil
+    (0..NUM_ROWS - 1).each do |row|
+      if self.board[row][column] == :blank
+        num_row = row
+        break
+      end
+    end
+
+    num_row
+  end
+
 
   def color(player)
     if player == self.player_1
