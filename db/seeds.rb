@@ -8,3 +8,5 @@
 #
 User.create(name: "User1")
 User.create(name: "User2")
+
+Game.create()

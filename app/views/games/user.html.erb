@@ -1,0 +1,24 @@
+<div>
+  <div>
+    <h3>Connect Four!</h3>
+  </div>
+
+  <% if @game.current_player == @current_player %>
+    <h5>Es tu turno!</h3>
+  <% else %>
+    <h5>Espera tu turno para jugar!</h3>
+  <% end %>
+
+
+  <div id="board">
+    <%= render partial: "board" %>
+  </div>
+
+  <% (1..Game::NUM_COLUMNS).each do |column| %>
+    <%= link_to "Jugar en col #{column}", game_path(user: @current_player.id, column: column - 1), remote: true, method: :put, class: "btn" %>
+    <br>
+  <% end %>
+
+
+
+</div>

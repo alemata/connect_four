@@ -5,7 +5,7 @@ class CreateGames < ActiveRecord::Migration
       t.integer :current_player_id
       t.integer :player_1_id
       t.integer :player_2_id
-      t.string :board
+      t.text :board
 
       t.timestamps
     end

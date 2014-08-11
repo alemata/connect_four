@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20140811175844) do
     t.integer  "current_player_id"
     t.integer  "player_1_id"
     t.integer  "player_2_id"
-    t.string   "board"
+    t.text     "board"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

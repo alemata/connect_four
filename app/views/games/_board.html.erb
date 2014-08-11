@@ -1,0 +1,9 @@
+<% @game.board.each do |column| %>
+  <div class="row placeholders">
+    <div class="col-xs-4">
+      <% column.each do |slot| %>
+        <a href="#" class="col-xs-6 btn btn-default btn-circle <%= slot.to_s %>"><i class=""></i></a>
+      <% end %>
+    </div>
+  </div>
+<% end %>
