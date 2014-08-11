@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
+  root :to => redirect('/users/1')
   get "users/:id", :to => "games#user"
   get "users/:id", :to => "games#user"
 
