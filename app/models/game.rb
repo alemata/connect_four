@@ -48,7 +48,7 @@ class Game < ActiveRecord::Base
   end
 
   def check_board(color)
-    check_horizontal(color) || check_vertical(color)
+    check_horizontal(color) || check_vertical(color) || check_diagonals(color)
   end
 
   private
@@ -103,6 +103,26 @@ class Game < ActiveRecord::Base
   def check_vertical_line(color, row, col)
     self.board[row][col] == color &&
       [self.board[row][col], self.board[row+1][col], self.board[row+2][col], self.board[row+3][col]].uniq.size == 1
+  end
+
+  def check_diagonals(color)
+    win = false
+    (0..2).each do |row|
+      break if win
+      (0..3).each do |col|
+        break if win
+        if self.board[row][col] == color
+          win = check_diagonal_up_line(color, row, col)
+        end
+      end
+    end
+
+    win
+  end
+
+  def check_diagonal_up_line(color, row, col)
+    self.board[row][col] == color &&
+      [self.board[row][col], self.board[row+1][col+1], self.board[row+2][col+2], self.board[row+3][col+3]].uniq.size == 1
   end
 
 
