@@ -111,7 +111,7 @@ class GameTest < ActiveSupport::TestCase
     assert @game.check_board(:red), "Error detecting vertical win"
   end
 
-  # Diagonal win
+  # Diagonal up win
 
   test "check diagonal win" do
     @game.board[0][0] = :red
@@ -120,6 +120,17 @@ class GameTest < ActiveSupport::TestCase
     @game.board[3][3] = :red
 
     assert @game.check_board(:red), "Error detecting diagonal win"
+  end
+
+  # Diagonal down win
+
+  test "check diagonal down win" do
+    @game.board[5][0] = :red
+    @game.board[4][1] = :red
+    @game.board[3][2] = :red
+    @game.board[2][3] = :red
+
+    assert @game.check_board(:red), "Error detecting diagonal down win"
   end
 
 end
