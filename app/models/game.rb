@@ -117,12 +117,27 @@ class Game < ActiveRecord::Base
       end
     end
 
+    5.downto(3).each do |row|
+      break if win
+      (0..3).each do |col|
+        break if win
+        if self.board[row][col] == color
+          win = check_diagonal_down_line(color, row, col)
+        end
+      end
+    end
+
     win
   end
 
   def check_diagonal_up_line(color, row, col)
     self.board[row][col] == color &&
       [self.board[row][col], self.board[row+1][col+1], self.board[row+2][col+2], self.board[row+3][col+3]].uniq.size == 1
+  end
+
+  def check_diagonal_down_line(color, row, col)
+    self.board[row][col] == color &&
+      [self.board[row][col], self.board[row-1][col+1], self.board[row-2][col+2], self.board[row-3][col+3]].uniq.size == 1
   end
 
 
