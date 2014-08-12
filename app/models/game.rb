@@ -51,6 +51,11 @@ class Game < ActiveRecord::Base
     check_horizontal(color) || check_vertical(color) || check_diagonals(color)
   end
 
+  #TODO improve tie with amount_of_moves (and checking status)
+  def check_tie
+    self.board.all?{|col| col.all?{|slot| slot.to_sym != :blank}}
+  end
+
   private
 
   def get_row(column)

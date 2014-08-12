@@ -50,6 +50,29 @@ class GameTest < ActiveSupport::TestCase
 
   # Check boards statuses
 
+  test "check no tie when no played" do
+    assert_not @game.check_tie, "Error detecting tie when no played"
+  end
+
+  test "check no tie when played but not tie" do
+    @game.board[0][0] = :red
+    @game.board[0][1] = :red
+    @game.board[0][2] = :red
+
+    assert_not @game.check_tie, "Error detecting tie when played"
+  end
+
+  test "check tie when played and is a tie" do
+    #TODO make a tie board
+    (0..Game::NUM_ROWS - 1).each do |row|
+      (0..Game::NUM_COLUMNS - 1).each do |col|
+        @game.board[row][col] = :red
+      end
+    end
+
+    assert @game.check_tie, "Tie not detected"
+  end
+
   test "check no win when no played" do
     assert_not @game.check_board(:red), "Error detecting not winner"
   end
