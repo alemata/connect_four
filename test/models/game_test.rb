@@ -47,4 +47,79 @@ class GameTest < ActiveSupport::TestCase
     assert_equal users(:user_two), @game.current_player, "Error when changing turn when player moves"
   end
 
+
+  # Check boards statuses
+
+  test "check no win when no played" do
+    assert_not @game.check_board(:red), "Error detecting not winner"
+  end
+
+  test "check no win when played" do
+    @game.board[0][0] = :red
+    @game.board[0][1] = :red
+    @game.board[0][2] = :red
+
+    assert_not @game.check_board(:red), "Error detecting not winner"
+  end
+
+  test "check no win when played 2" do
+    @game.board[0][0] = :red
+    @game.board[0][1] = :red
+    @game.board[0][2] = :red
+    @game.board[0][3] = :blue
+
+    assert_not @game.check_board(:red), "Error detecting not winner"
+  end
+
+  # Horizontal win
+
+  test "check horizontal win" do
+    @game.board[0][0] = :red
+    @game.board[0][1] = :red
+    @game.board[0][2] = :red
+    @game.board[0][3] = :red
+
+    assert @game.check_board(:red), "Error detecting horizontal win"
+  end
+
+  test "check horizontal win 2" do
+    @game.board[0][3] = :red
+    @game.board[0][4] = :red
+    @game.board[0][5] = :red
+    @game.board[0][6] = :red
+
+    assert @game.check_board(:red), "Error detecting horizontal win"
+  end
+
+  # Vertical win
+
+  test "check vertical win" do
+    @game.board[0][3] = :red
+    @game.board[1][3] = :red
+    @game.board[2][3] = :red
+    @game.board[3][3] = :red
+
+    assert @game.check_board(:red), "Error detecting vertical win"
+  end
+
+  test "check vertical win 2" do
+    @game.board[2][2] = :red
+    @game.board[3][2] = :red
+    @game.board[4][2] = :red
+    @game.board[5][2] = :red
+
+    assert @game.check_board(:red), "Error detecting vertical win"
+  end
+
+  # Diagonal win
+
+  test "check diagonal win" do
+    @game.board[0][0] = :red
+    @game.board[1][1] = :red
+    @game.board[2][2] = :red
+    @game.board[3][3] = :red
+
+    assert @game.check_board(:red), "Error detecting diagonal win"
+  end
+
 end
