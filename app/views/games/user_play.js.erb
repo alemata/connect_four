@@ -1,7 +1,11 @@
-<% if @played %>
+<% if @info[:played] %>
   $('#board').html('<%= escape_javascript(render("board")) %>');
   $('#to_play').empty()
-  $('#turn').text("Wait your turn to play!")
+  <% if @info[:win] %>
+    $('#turn').text("You winn!")
+  <% else %>
+    $('#turn').text("Wait your turn to play!")
+  <% end %>
 <% else %>
   $('#turn').text("Could not play... try again!")
 <% end %>

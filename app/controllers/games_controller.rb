@@ -9,7 +9,7 @@ class GamesController < ApplicationController
     @current_player = User.find params[:user]
     column = params[:column].to_i
     @game = Game.first
-    @played = @game.play(@current_player, column)
+    @info = @game.play(@current_player, column)
 
     @game.reload
   end

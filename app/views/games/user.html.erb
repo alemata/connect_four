@@ -1,4 +1,4 @@
-<div>
+<div class="container">
   <div>
     <h3>Connect Four!</h3>
   </div>
@@ -6,10 +6,17 @@
   <br>
 
   <% is_turn = @game.current_player == @current_player  %>
-  <% if is_turn %>
+
+  <% if is_turn && @game.status.to_sym == :finished %>
+    <% turn_string = "Your winnnn!!" %>
+  <% elsif is_turn %>
     <% turn_string = "Your turn!" %>
   <% else %>
     <% turn_string = "Wait your turn to play!" %>
+  <% end %>
+
+  <% if !is_turn && @game.status.to_sym == :finished %>
+    <% turn_string = "You lost!" %>
   <% end %>
 
   <div id='turn'>
@@ -22,7 +29,7 @@
     <%= render partial: "board" %>
   </div>
 
-  <% if is_turn %>
+  <% if is_turn && @game.status.to_sym != :finished && @game.status.to_sym != :tie %>
     <div id='to_play'>
       <% (1..Game::NUM_COLUMNS).each do |column| %>
         <%= link_to "Play in column #{column}", game_path(user: @current_player.id, column: column - 1), remote: true, method: :put, class: "btn" %>

@@ -21,21 +21,39 @@ class Game < ActiveRecord::Base
   end
 
   def play(player, column)
-    played = false
+    info = {played: false, win: false, tie: false}
     num_row = get_row(column)
+
     if num_row
       self.board[num_row][column] = color(player)
-      self.current_player = next_player
+      win = check_board(color(player))
+      if win
+        self.status = :finished
+      else
+        self.current_player = next_player
+      end
       played = true if self.save
+      info[:played] = true
+      info[:win] = win
     end
 
-    played
+    info
   end
 
   def reset
+    self.status = :new
     self.current_player = self.player_1
     self.board = Array.new(NUM_ROWS){ Array.new(NUM_COLUMNS) {|i| :blank } }
     self.save
+  end
+
+  def check_board(color)
+    check_horizontal(color) || check_vertical(color) || check_diagonals(color)
+  end
+
+  #TODO improve tie with amount_of_moves (and checking status)
+  def check_tie
+    self.board.all?{|col| col.all?{|slot| slot.to_sym != :blank}}
   end
 
   private
@@ -50,6 +68,81 @@ class Game < ActiveRecord::Base
     end
 
     num_row
+  end
+
+  def check_horizontal(color)
+    win = false
+    (0..NUM_ROWS - 1).each do |row|
+      break if win
+      (0..3).each do |col|
+        break if win
+        if self.board[row][col] == color
+          win = check_horizontal_line(color, row, col)
+        end
+      end
+    end
+
+    win
+  end
+
+  def check_horizontal_line(color, row, col)
+    self.board[row][col] == color &&
+      [self.board[row][col], self.board[row][col+1], self.board[row][col+2], self.board[row][col+3]].uniq.size == 1
+  end
+
+  def check_vertical(color)
+    win = false
+    (0..2).each do |row|
+      break if win
+      (0..NUM_COLUMNS - 1).each do |col|
+        break if win
+        if self.board[row][col] == color
+          win = check_vertical_line(color, row, col)
+        end
+      end
+    end
+
+    win
+  end
+
+  def check_vertical_line(color, row, col)
+    self.board[row][col] == color &&
+      [self.board[row][col], self.board[row+1][col], self.board[row+2][col], self.board[row+3][col]].uniq.size == 1
+  end
+
+  def check_diagonals(color)
+    win = false
+    (0..2).each do |row|
+      break if win
+      (0..3).each do |col|
+        break if win
+        if self.board[row][col] == color
+          win = check_diagonal_up_line(color, row, col)
+        end
+      end
+    end
+
+    5.downto(3).each do |row|
+      break if win
+      (0..3).each do |col|
+        break if win
+        if self.board[row][col] == color
+          win = check_diagonal_down_line(color, row, col)
+        end
+      end
+    end
+
+    win
+  end
+
+  def check_diagonal_up_line(color, row, col)
+    self.board[row][col] == color &&
+      [self.board[row][col], self.board[row+1][col+1], self.board[row+2][col+2], self.board[row+3][col+3]].uniq.size == 1
+  end
+
+  def check_diagonal_down_line(color, row, col)
+    self.board[row][col] == color &&
+      [self.board[row][col], self.board[row-1][col+1], self.board[row-2][col+2], self.board[row-3][col+3]].uniq.size == 1
   end
 
 
